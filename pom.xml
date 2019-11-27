@@ -23,14 +23,19 @@
             <version>7.0.0</version>
             <scope>test</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.jayway.restassured/rest-assured -->
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.jayway.restassured/rest-assured &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.jayway.restassured</groupId>-->
+<!--            <artifactId>rest-assured</artifactId>-->
+<!--            <version>2.9.0</version>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
+        <!-- https://mvnrepository.com/artifact/com.sun.jersey/jersey-json -->
         <dependency>
-            <groupId>com.jayway.restassured</groupId>
-            <artifactId>rest-assured</artifactId>
-            <version>2.9.0</version>
-            <scope>test</scope>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-json</artifactId>
+            <version>1.19.2</version>
         </dependency>
-
         <!-- https://mvnrepository.com/artifact/com.sun.jersey/jersey-json -->
         <dependency>
             <groupId>com.sun.jersey</groupId>
@@ -44,5 +49,4 @@
             <version>1.19.4</version>
         </dependency>
     </dependencies>
-
 </project>
