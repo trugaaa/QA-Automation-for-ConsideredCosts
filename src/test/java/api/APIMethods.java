@@ -1,5 +1,9 @@
 package api;
 
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+
 public class APIMethods {
     private static final String ROOT_URL = "https://ccostsproject.azurewebsites.net";
 
@@ -7,7 +11,15 @@ public class APIMethods {
     private static final String INVALID_AUTH_TOKEN = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9u" +
             "YW1lIjoiQWRtaW4iLCJuYmYiOjE1NzQ4ODE3NTMsImV4cCI6MTU3NDg4MjM1MywiaXNzIjoiQ0NUZWFtIiwiYXVkIjoiQ0NVc2VycyJ9.yz1mP4VMxBzN516mvmH-T0F9VshYQmVfbnmzi6CkOw";
 
-
+    //TODO CREate normal work
+    /*
+    Client client;
+    WebResource webResource;
+    public static ClientResponse settingThingsUp(){
+        webResource=client.resource(APIMethods.getURLWithEndpoint("/login"));
+        ClientResponse response = webResource.accept("application/json").post(ClientResponse.class);
+        //assertEquals(response.getStatus(),400);
+    }*/
 
     public static String getValidAuthToken() {
         return validAuthToken;
