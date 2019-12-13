@@ -1,25 +1,62 @@
 package api;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import static org.testng.Assert.*;
-import org.testng.annotations.BeforeClass;
+import api.data.LoginJsonData;
+import api.data.RegistrationData;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 public class TestClassAPI {
 
-    @POST
-    @Path("/login")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Test(groups = "Account")
-    public void loginSuccessful() {
 
+    private RegistrationData regData;
+    private LoginJsonData loginJsonData;
+
+    @BeforeMethod
+    public void init()
+    {
+        regData = new RegistrationData();
+        loginJsonData = new LoginJsonData();
+    }
+
+
+
+
+    @DELETE
+    @Path("/Test/deleteDB")
+    @Test(groups = "TEST")
+    public void deleteDBBeforeTests() {
+        Assert.assertEquals(new APIMethods().delete("/Test/ClearDb",200).getStatus(),200);
+    }
+
+    @POST
+    @Path("/accounts/registration")
+    @Test(groups = "Account")
+    public void registrationSuccess() {
+        Assert.assertEquals(new APIMethods().post("/accounts/registration",regData.dataForReg(),200).getStatus(),200);
+    }
+
+    @POST
+    @Path("/accounts/jsonLogin")
+    @Test(groups = "Account")
+    public void loginAdminSuccess() {
+        Assert.assertEquals(new APIMethods().post("/accounts/jsonLogin",loginJsonData.loginAdmin(),200).getStatus(),200);
+    }
+
+    @POST
+    @Path("/accounts/jsonLogin")
+    @Test(groups = "Account", dependsOnMethods = "registrationSuccess")
+    public void loginUserSuccess() {
+        Assert.assertEquals(new APIMethods().post("/accounts/jsonLogin",loginJsonData.loginUser(),200).getStatus(),200);
+    }
+
+    @POST
+    @Path("/accounts/jsonLogin")
+    @Test(groups = "Account")
+    public void loginIncorrectPass() {
+        Assert.assertEquals(new APIMethods().post("/accounts/jsonLogin",loginJsonData.loginIncorrectPass(),401).getStatus(), 401);
     }
 }
