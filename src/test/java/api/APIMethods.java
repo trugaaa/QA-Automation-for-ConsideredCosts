@@ -1,13 +1,16 @@
 package api;
 
+import api.data.JSONObjectAPI;
 import org.json.JSONObject;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.*;
 import java.io.FileInputStream;
 import java.util.Properties;
+import static api.process.APIOperations.*;
 
 public class APIMethods {
 
@@ -19,7 +22,6 @@ public class APIMethods {
         try {
             fis = new FileInputStream("src/test/java/api/resources/configAPI.properties");
             property.load(fis);
-
             rootURL = property.getProperty("ROOT_URL");
         }
         catch (Exception ex)
@@ -27,47 +29,58 @@ public class APIMethods {
             System.out.println(ex.getMessage());
         }
     }
-    public Response post(String endpoint, JSONObject body,int expectedHttpCode)
+
+    public Invocation.Builder getResponse(JSONObjectAPI headers)
     {
         Client client= ClientBuilder.newClient();
-        Response res = client.target(rootURL).path(endpoint).request().post(Entity.json(body.toString()));
-        requestLogs(endpoint,body,res,new Throwable()
-                .getStackTrace()[0]
-                .getMethodName(),expectedHttpCode);
-
-        return res;
-    }
-
-    public Response delete(String endpoint,int expectedHttpCode)
-    {
-        Client client= ClientBuilder.newClient();
-        Response res = client.target(rootURL).path(endpoint).request().delete();
-        requestLogs(endpoint,null,res,new Throwable()
-                .getStackTrace()[0]
-                .getMethodName(),expectedHttpCode);
-        return res;
-
-    }
-    public void requestLogs(String endpoint, JSONObject body, Response response, String method, int expectedHttpCode)
-    {
-        System.out.println("------------------------------------------------------------------------------------------");
-        System.out.println("URL: "+rootURL+endpoint);
-        System.out.println("HTTP Method: "+ method.toUpperCase());
-        if(body!=null){
-        System.out.println("Request body: "+body.toString());
-    }
-        System.out.println("Expected HTTP Code: " + expectedHttpCode);
-
-        System.out.println();
-        System.out.println("Actual HTTP Code: "+ response.getStatus());
-        if(response.getHeaders()!=null)
+        if(headers.has("headers"))
         {
-            System.out.println(response.getHeaders().toString());
+            return client
+                    .target(rootURL).path(headers.getEndpoint())
+                    .request(headers.getRequest())
+                    .headers(headers.getHeadersMultiMap())
+                    .accept(headers.getAccept());
         }
-        if(body!=null) {
-            System.out.println("Response body: " + response.readEntity(String.class));
-        }
-
-        System.out.println();
+        else
+            return client
+                    .target(rootURL).path(headers.getEndpoint())
+                    .request(headers.getRequest())
+                    .accept(headers.getAccept());
     }
+
+    public Response get(JSONObjectAPI headers,int expectedHttpCode, boolean needLogs)
+    {
+        Response res = getResponse(headers).get();
+            requestLogs(rootURL, headers,null,res,new Throwable()
+                    .getStackTrace()[0]
+                    .getMethodName(),expectedHttpCode,needLogs);
+        return res;
+    }
+
+
+
+    public Response post(JSONObjectAPI headers,JSONObject data , int expectedHttpCode, boolean needLogs)
+    {
+
+        Response res = getResponse(headers).post(Entity.json(data.toString()));
+
+            requestLogs(rootURL, headers,null,res,new Throwable()
+                    .getStackTrace()[0]
+                    .getMethodName(),expectedHttpCode,needLogs);
+        return res;
+    }
+
+
+    public Response delete(JSONObjectAPI headers, int expectedHttpCode, boolean needLogs)
+    {
+            Response response= getResponse(headers)
+                    .delete();
+        requestLogs(rootURL,headers,null,response,new Throwable()
+                .getStackTrace()[0]
+                .getMethodName(),expectedHttpCode,needLogs);
+
+
+        return response;
+    }
+
 }
