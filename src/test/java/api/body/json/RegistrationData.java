@@ -1,4 +1,4 @@
-package api.data;
+package api.body.json;
 
 
 import org.json.JSONObject;
