@@ -25,7 +25,6 @@ public class JSONObjectAPI extends JSONObject {
     public JSONObject putHeaders( HashMap<String,Object> myHeaders) throws JSONException {
         put("headers",myHeaders);
         return this;
-
     }
 
     public String getRequest() throws JSONException {

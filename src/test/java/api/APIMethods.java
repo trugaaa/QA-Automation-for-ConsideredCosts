@@ -78,4 +78,15 @@ public class APIMethods {
         return response;
     }
 
+    public Response put(JSONObjectAPI headers,JSONObject body , int expectedHttpCode, boolean needLogs)
+    {
+
+        Response res = getResponse(headers).put(Entity.json(body.toString()));
+
+        requestLogs(rootURL, headers,body,res,new Throwable()
+                .getStackTrace()[0]
+                .getMethodName(),expectedHttpCode,needLogs);
+        return res;
+    }
+
 }

@@ -1,10 +1,10 @@
 package api.data;
 
 import api.APIMethods;
-import api.body.json.LoginJsonData;
+import api.body.json.add.LoginJsonData;
 import org.json.JSONObject;
-
 import javax.ws.rs.core.MediaType;
+
 import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Properties;
@@ -21,63 +21,75 @@ public class ApiData {
     }
 
     public JSONObjectAPI DataHeadersToken(String endpoint, String tokenType) {
-        if (tokenType == "Admin") {
-            JSONObjectAPI apiHeaders = new JSONObjectAPI();
-            apiHeaders.putAccept(MediaType.APPLICATION_JSON);
-            apiHeaders.putRequest(MediaType.APPLICATION_JSON);
-            apiHeaders.putHeaders(getValidAdminTokenHeader());
-            apiHeaders.putEndpoint(endpoint);
-            return apiHeaders;
-        } else if (tokenType == "User") {
-            JSONObjectAPI apiHeaders = new JSONObjectAPI();
-            apiHeaders.putAccept(MediaType.APPLICATION_JSON);
-            apiHeaders.putRequest(MediaType.APPLICATION_JSON);
-            apiHeaders.putHeaders(getValidUserTokenHeader());
-            apiHeaders.putEndpoint(endpoint);
-            return apiHeaders;
-        } else if (tokenType == "Invalid") {
-            JSONObjectAPI apiHeaders = new JSONObjectAPI();
-            apiHeaders.putAccept(MediaType.APPLICATION_JSON);
-            apiHeaders.putRequest(MediaType.APPLICATION_JSON);
-            apiHeaders.putHeaders(getInvalidTokenHeader());
-            apiHeaders.putEndpoint(endpoint);
-            return apiHeaders;
-        } else  {
-            // (tokenType == "Expired")
-            JSONObjectAPI apiHeaders = new JSONObjectAPI();
-            apiHeaders.putAccept(MediaType.APPLICATION_JSON);
-            apiHeaders.putRequest(MediaType.APPLICATION_JSON);
-            apiHeaders.putHeaders(getExpiredAdminTokenHeader());
-            apiHeaders.putEndpoint(endpoint);
-            return apiHeaders;
-        }
+        HashMap<String,Object> headersMap = new HashMap<>();
+        JSONObjectAPI apiHeaders = new JSONObjectAPI();
+        apiHeaders.putAccept(MediaType.APPLICATION_JSON);
+        apiHeaders.putRequest(MediaType.APPLICATION_JSON);
+        apiHeaders.putEndpoint(endpoint);
 
+        if (tokenType == "Admin") {
+            headersMap.put("Authorization", getValidAdminTokenHeader());
+        } else if (tokenType == "User") {
+            headersMap.put("Authorization", getValidUserTokenHeader());
+        } else if (tokenType == "Invalid") {
+            headersMap.put("Authorization", getInvalidTokenHeader());
+        } else {
+            headersMap.put("Authorization", getExpiredAdminTokenHeader());
+        }
+        apiHeaders.putHeaders(headersMap);
+        return apiHeaders;
+    }
+
+    public JSONObjectAPI DataHeadersTokenId(String endpoint, String tokenType,Object id) {
+        HashMap<String,Object> headersMap = new HashMap<>();
+        headersMap.put("id",id);
+        JSONObjectAPI apiHeaders = new JSONObjectAPI();
+        apiHeaders.putAccept(MediaType.APPLICATION_JSON);
+        apiHeaders.putRequest(MediaType.APPLICATION_JSON);
+        apiHeaders.putEndpoint(endpoint);
+
+        if (tokenType == "Admin") {
+            headersMap.put("Authorization", getValidAdminTokenHeader());
+        } else if (tokenType == "User") {
+            headersMap.put("Authorization", getValidUserTokenHeader());
+        } else if (tokenType == "Invalid") {
+            headersMap.put("Authorization", getInvalidTokenHeader());
+        } else {
+            headersMap.put("Authorization", getExpiredAdminTokenHeader());
+        }
+        apiHeaders.putHeaders(headersMap);
+        return apiHeaders;
     }
 
 
-
-
-    public HashMap<String,Object> getValidAdminTokenHeader()
+    public String getValidAdminTokenHeader()
     {
         JSONObjectAPI headers=DataHeaders("/accounts/jsonLogin");
         JSONObject data=new LoginJsonData().loginAdmin();
-        JSONObject object=new JSONObject(new APIMethods().post(headers,data,200,false).readEntity(String.class)).getJSONObject("data");
-        HashMap<String,Object> myHeaders=new HashMap<>();
-        myHeaders.put("Authorization","Bearer "+object.getString("access_token"));
-        return myHeaders;
+        HashMap<String, Object> myHeaders = new HashMap<>();
+        String ret = "";
+        try {
+            JSONObject object = new JSONObject(new APIMethods().post(headers, data, 200, false).readEntity(String.class)).getJSONObject("data");
+            ret = object.getString("access_token");
+        }catch(Exception ignored){
+        }
+        return "Bearer "+ ret;
     }
 
-    public HashMap<String,Object> getValidUserTokenHeader()
+    public String getValidUserTokenHeader()
     {
         JSONObjectAPI headers=DataHeaders("/accounts/jsonLogin");
         JSONObject data=new LoginJsonData().loginUser();
-        JSONObject object=new JSONObject(new APIMethods().post(headers,data,200,false).readEntity(String.class)).getJSONObject("data");
-        HashMap<String,Object> myHeaders=new HashMap<>();
-        myHeaders.put("Authorization","Bearer "+object.getString("access_token"));
-        return myHeaders;
+        String ret = "";
+        try {
+            JSONObject object = new JSONObject(new APIMethods().post(headers, data, 200, false).readEntity(String.class)).getJSONObject("data");
+            ret = object.getString("access_token");
+        }catch(Exception ignored){
+        }
+        return "Bearer "+ ret;
     }
 
-    public HashMap<String,Object> getInvalidTokenHeader()
+    public String getInvalidTokenHeader()
     {
         HashMap<String,Object> myHeaders=new HashMap<>();
         String invalidToken = "";
@@ -92,18 +104,20 @@ public class ApiData {
         {
             System.out.println(ex.getMessage());
         }
-
-        myHeaders.put("Authorization","Bearer "+ invalidToken);
-        return myHeaders;
+        return invalidToken;
     }
-    public HashMap<String,Object> getExpiredAdminTokenHeader()
+    public String getExpiredAdminTokenHeader()
     {
         JSONObjectAPI headers=DataHeaders("/accounts/jsonLogin");
         JSONObject data=new LoginJsonData().loginAdmin();
-        JSONObject object=new JSONObject(new APIMethods().post(headers,data,200,false).readEntity(String.class)).getJSONObject("data");
-        HashMap<String,Object> myHeaders=new HashMap<>();
-        myHeaders.put("Authorization","Bearer "+object.getString("access_token"));
-        new JSONObject(new APIMethods().post(headers,data,200,false));
-        return myHeaders;
+        String ret = "";
+        try {
+            JSONObject object = new JSONObject(new APIMethods().post(headers, data,
+                    200, false).readEntity(String.class)).getJSONObject("data");
+            new JSONObject(new APIMethods().post(headers, data,200, false));
+            ret = object.getString("access_token");
+        }catch(Exception ignored){
+        }
+        return "Bearer "+ ret;
     }
 }
