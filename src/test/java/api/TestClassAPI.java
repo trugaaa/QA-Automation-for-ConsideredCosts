@@ -161,7 +161,7 @@ public class TestClassAPI {
     @Test(groups = "Income",priority = 6)
     public void deletingIncomeWithInExistentId() {
         Assert.assertEquals(new APIMethods().delete(apiData.DataHeadersTokenId("/incomes","Admin",232332),
-                404,true).getStatus(), 404);
+                400,true).getStatus(), 400);
     }
 
     @DELETE
@@ -193,7 +193,7 @@ public class TestClassAPI {
     @Test(groups = "Income",priority = 4)
     public void editInExistentIncome() {
         Assert.assertEquals(new APIMethods().put(apiData.DataHeadersToken("/incomes","User"),
-                editIncomeData.inExistentIncome(),404,true).getStatus(), 404);
+                editIncomeData.inExistentIncome(),400,true).getStatus(), 400);
     }
 
     @PUT
@@ -281,7 +281,7 @@ public class TestClassAPI {
     @Test(groups = "Outgoes",priority = 6)
     public void deletingOutgoeWithInExistentId() {
         Assert.assertEquals(new APIMethods().delete(apiData.DataHeadersTokenId("/outgoes","Admin",3213123),
-                404,true).getStatus(), 404);
+                400,true).getStatus(), 400);
     }
 
     @DELETE
@@ -321,7 +321,7 @@ public class TestClassAPI {
     @Test(groups = "Outgoes",priority = 4)
     public void editInExistentOutgoe() {
         Assert.assertEquals(new APIMethods().put(apiData.DataHeadersToken("/outgoes","User"),
-                editOutgoeData.inExistentOutgoe(),404,true).getStatus(), 404);
+                editOutgoeData.inExistentOutgoe(),400,true).getStatus(), 400);
     }
 
     @GET
@@ -442,7 +442,7 @@ public class TestClassAPI {
     @Test(groups = "Item",priority = 4)
     public void editInExistentItem() {
         Assert.assertEquals(new APIMethods().put(apiData.DataHeadersToken("/items","Users"),
-                editItemData.inExistentItem(),404,true).getStatus(), 404);
+                editItemData.inExistentItem(),400,true).getStatus(), 400);
     }
 
     @PUT
@@ -466,7 +466,7 @@ public class TestClassAPI {
     @Test(groups = "Item",priority = 6)
     public void deleteInExistentItem() {
         Assert.assertEquals(new APIMethods().delete(apiData.DataHeadersTokenId("/items","User",3312),
-                404,true).getStatus(), 404);
+                400,true).getStatus(), 400);
     }
 
     @DELETE
@@ -476,4 +476,61 @@ public class TestClassAPI {
         Assert.assertEquals(new APIMethods().delete(apiData.DataHeadersTokenId("/items","Invalid",2),
                 401,true).getStatus(), 401);
     }
+
+    @GET
+    @Path("/points")
+    @Test(groups = "Screen",priority = 5)
+    public void getPointsToIncomesAndOutgoes() {
+        Assert.assertEquals(new APIMethods().get(apiData.DataHeadersPoints("/points","User",
+                "incomesAndOutgoes",""),200,true).getStatus(), 200);
+    }
+
+    @GET
+    @Path("/points")
+    @Test(groups = "Screen",priority = 5)
+    public void getPointsToIncomesLastMonth() {
+        Assert.assertEquals(new APIMethods().get(apiData.DataHeadersPoints("/points","User",
+                "incomes","lastMonth"),200,true).getStatus(), 200);
+    }
+
+    @GET
+    @Path("/points")
+    @Test(groups = "Screen",priority = 5)
+    public void getPointsToItemsLastHalfYear() {
+        Assert.assertEquals(new APIMethods().get(apiData.DataHeadersPoints("/points","User",
+                "items","lastHalfYear"),200,true).getStatus(), 200);
+    }
+
+    @GET
+    @Path("/points")
+    @Test(groups = "Screen",priority = 5)
+    public void getPointsToOutgoesLastThreeMonths() {
+        Assert.assertEquals(new APIMethods().get(apiData.DataHeadersPoints("/points","User",
+                "outgoes","lastThreeMonth"),200,true).getStatus(), 200);
+    }
+
+    @GET
+    @Path("/points")
+    @Test(groups = "Screen",priority = 5)
+    public void getPointsToOutgoesBadPeriod() {
+        Assert.assertEquals(new APIMethods().get(apiData.DataHeadersPoints("/points","User",
+                "outgoes","last"),400,true).getStatus(), 400);
+    }
+
+    @GET
+    @Path("/points")
+    @Test(groups = "Screen",priority = 5)
+    public void getPointsBadType() {
+        Assert.assertEquals(new APIMethods().get(apiData.DataHeadersPoints("/points","User",
+                "outgoaes",""),400,true).getStatus(), 400);
+    }
+
+    @GET
+    @Path("/points")
+    @Test(groups = "Screen",priority = 5)
+    public void getPointsToIncomesAndOutgoesInvalidToken() {
+        Assert.assertEquals(new APIMethods().get(apiData.DataHeadersPoints("/points","Invalid",
+                "incomesAndOutgoes",""),401,true).getStatus(), 401);
+    }
+
 }

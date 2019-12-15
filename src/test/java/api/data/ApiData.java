@@ -22,20 +22,8 @@ public class ApiData {
 
     public JSONObjectAPI DataHeadersToken(String endpoint, String tokenType) {
         HashMap<String,Object> headersMap = new HashMap<>();
-        JSONObjectAPI apiHeaders = new JSONObjectAPI();
-        apiHeaders.putAccept(MediaType.APPLICATION_JSON);
-        apiHeaders.putRequest(MediaType.APPLICATION_JSON);
-        apiHeaders.putEndpoint(endpoint);
-
-        if (tokenType == "Admin") {
-            headersMap.put("Authorization", getValidAdminTokenHeader());
-        } else if (tokenType == "User") {
-            headersMap.put("Authorization", getValidUserTokenHeader());
-        } else if (tokenType == "Invalid") {
-            headersMap.put("Authorization", getInvalidTokenHeader());
-        } else {
-            headersMap.put("Authorization", getExpiredAdminTokenHeader());
-        }
+        JSONObjectAPI apiHeaders = new ApiData().DataHeaders(endpoint);
+        headersMap.put("Authorization", new ApiData().settingToken(tokenType));
         apiHeaders.putHeaders(headersMap);
         return apiHeaders;
     }
@@ -43,24 +31,35 @@ public class ApiData {
     public JSONObjectAPI DataHeadersTokenId(String endpoint, String tokenType,Object id) {
         HashMap<String,Object> headersMap = new HashMap<>();
         headersMap.put("id",id);
-        JSONObjectAPI apiHeaders = new JSONObjectAPI();
-        apiHeaders.putAccept(MediaType.APPLICATION_JSON);
-        apiHeaders.putRequest(MediaType.APPLICATION_JSON);
-        apiHeaders.putEndpoint(endpoint);
-
-        if (tokenType == "Admin") {
-            headersMap.put("Authorization", getValidAdminTokenHeader());
-        } else if (tokenType == "User") {
-            headersMap.put("Authorization", getValidUserTokenHeader());
-        } else if (tokenType == "Invalid") {
-            headersMap.put("Authorization", getInvalidTokenHeader());
-        } else {
-            headersMap.put("Authorization", getExpiredAdminTokenHeader());
-        }
+        JSONObjectAPI apiHeaders = new ApiData().DataHeaders(endpoint);
+        headersMap.put("Authorization", new ApiData().settingToken(tokenType));
         apiHeaders.putHeaders(headersMap);
         return apiHeaders;
     }
 
+    public JSONObjectAPI DataHeadersPoints(String endpoint, String tokenType,Object type,Object period) {
+        HashMap<String,Object> headersMap = new HashMap<>();
+        headersMap.put("type",type);
+        headersMap.put("period",period);
+        JSONObjectAPI apiHeaders = new ApiData().DataHeaders(endpoint);
+        headersMap.put("Authorization", new ApiData().settingToken(tokenType));
+
+        apiHeaders.putHeaders(headersMap);
+        return apiHeaders;
+    }
+
+    public String settingToken(String tokenType)
+    {
+        if (tokenType == "Admin") {
+            return getValidAdminTokenHeader();
+        } else if (tokenType == "User") {
+           return getValidUserTokenHeader();
+        } else if (tokenType == "Invalid") {
+            return  getInvalidTokenHeader();
+        } else {
+            return getExpiredAdminTokenHeader();
+        }
+    }
 
     public String getValidAdminTokenHeader()
     {
