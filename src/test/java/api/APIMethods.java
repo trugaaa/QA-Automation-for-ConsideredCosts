@@ -57,19 +57,16 @@ public class APIMethods {
         return res;
     }
 
-
-
-    public Response post(JSONObjectAPI headers,JSONObject data , int expectedHttpCode, boolean needLogs)
+    public Response post(JSONObjectAPI headers,JSONObject body , int expectedHttpCode, boolean needLogs)
     {
 
-        Response res = getResponse(headers).post(Entity.json(data.toString()));
+        Response res = getResponse(headers).post(Entity.json(body.toString()));
 
-            requestLogs(rootURL, headers,null,res,new Throwable()
+            requestLogs(rootURL, headers,body,res,new Throwable()
                     .getStackTrace()[0]
                     .getMethodName(),expectedHttpCode,needLogs);
         return res;
     }
-
 
     public Response delete(JSONObjectAPI headers, int expectedHttpCode, boolean needLogs)
     {
@@ -78,8 +75,6 @@ public class APIMethods {
         requestLogs(rootURL,headers,null,response,new Throwable()
                 .getStackTrace()[0]
                 .getMethodName(),expectedHttpCode,needLogs);
-
-
         return response;
     }
 

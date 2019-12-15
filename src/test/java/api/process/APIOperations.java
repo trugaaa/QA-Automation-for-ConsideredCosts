@@ -26,10 +26,7 @@ public class APIOperations {
                 System.out.println("Response headers: " + response.getHeaders().toString());
             }else { System.out.println("Response headers: ");}
 
-                System.out.println("Response body: " + response.readEntity(String.class));
-
-
-            System.out.println();
+             System.out.println("Response body: " + response.readEntity(String.class));
         }
 
 
