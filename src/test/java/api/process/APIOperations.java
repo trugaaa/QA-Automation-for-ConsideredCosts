@@ -28,8 +28,6 @@ public class APIOperations {
 
              System.out.println("Response body: " + response.readEntity(String.class));
         }
-
-
     }
 
 }
