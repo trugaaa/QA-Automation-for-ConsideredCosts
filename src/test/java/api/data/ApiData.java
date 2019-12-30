@@ -43,7 +43,6 @@ public class ApiData {
         headersMap.put("period",period);
         JSONObjectAPI apiHeaders = new ApiData().DataHeaders(endpoint);
         headersMap.put("Authorization", new ApiData().settingToken(tokenType));
-
         apiHeaders.putHeaders(headersMap);
         return apiHeaders;
     }

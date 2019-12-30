@@ -6,7 +6,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-public class Web {
+public class TestClassWeb {
     String rootUrl = "https://www.google.com/";
     ChromeDriver chrDrive;
     String elname = "q";
