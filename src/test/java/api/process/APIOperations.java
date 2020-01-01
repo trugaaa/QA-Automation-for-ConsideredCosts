@@ -1,9 +1,10 @@
 package api.process;
 
-import api.data.JSONObjectAPI;
-import org.json.JSONObject;
+        import api.data.JSONObjectAPI;
+        import org.json.JSONObject;
 
-import javax.ws.rs.core.Response;
+        import javax.ws.rs.core.Response;
+        import java.util.List;
 
 public class APIOperations {
 
@@ -11,7 +12,7 @@ public class APIOperations {
         if (needLogs)
         {
             System.out.println("------------------------------------------------------------------------------------------");
-            System.out.println("URL: " + rootURL + headers.getEndpoint());
+            System.out.println("URI: " + rootURL + headers.getEndpoint());
             System.out.println("HTTP Method: " + method.toUpperCase());
             System.out.println("Request headers: "+headers);
             if (body != null) {
@@ -26,8 +27,27 @@ public class APIOperations {
                 System.out.println("Response headers: " + response.getHeaders().toString());
             }else { System.out.println("Response headers: ");}
 
-             System.out.println("Response body: " + response.readEntity(String.class));
+            System.out.println("Response body: " + response.readEntity(String.class));
         }
     }
 
+    public static boolean keyValidation(Response response, List<String> keyList) {
+            JSONObject body = responseToJSON(response);
+            JSONObject object=new JSONObject(response.readEntity(String.class)).getJSONObject("data");
+            for (String key : keyList) {
+                if (body.has(key)) {
+                    System.out.println("haskey " + key);
+                } else {
+                    return false;
+                }
+            }
+
+
+        return true;
+    }
+
+    public static JSONObject responseToJSON(Response response)
+    {
+        return (JSONObject) response.getEntity();
+    }
 }

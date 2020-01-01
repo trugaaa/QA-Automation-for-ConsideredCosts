@@ -4,6 +4,7 @@ import api.body.json.add.*;
 import api.body.json.edit.EditIncomeData;
 import api.body.json.edit.EditItemData;
 import api.body.json.edit.EditOutgoeData;
+import api.body.json.expected.RegistrationResponse;
 import api.data.ApiData;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -22,6 +23,8 @@ public class TestClassAPI {
     private EditIncomeData editIncomeData;
     private EditOutgoeData editOutgoeData;
 
+    private RegistrationResponse registrationResponse;
+
     @BeforeClass
     public void init()
     {
@@ -34,6 +37,8 @@ public class TestClassAPI {
         editItemData = new EditItemData();
         editIncomeData = new EditIncomeData();
         editOutgoeData = new EditOutgoeData();
+
+        registrationResponse = new RegistrationResponse();
     }
 
     @DELETE

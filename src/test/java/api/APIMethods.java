@@ -9,6 +9,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.*;
 import java.io.FileInputStream;
+import java.util.List;
 import java.util.Properties;
 import static api.process.APIOperations.*;
 
@@ -57,7 +58,7 @@ public class APIMethods {
         return res;
     }
 
-    public Response post(JSONObjectAPI headers,JSONObject body , int expectedHttpCode, boolean needLogs)
+    public Response post(JSONObjectAPI headers, JSONObject body , int expectedHttpCode, boolean needLogs)
     {
 
         Response res = getResponse(headers).post(Entity.json(body.toString()));
