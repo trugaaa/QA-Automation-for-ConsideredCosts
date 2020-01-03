@@ -67,7 +67,7 @@ public class ApiData {
         HashMap<String, Object> myHeaders = new HashMap<>();
         String ret = "";
         try {
-            JSONObject object = new JSONObject(new APIMethods().post(headers, data, 200, false).readEntity(String.class)).getJSONObject("data");
+            JSONObject object = new JSONObject(new APIMethods().post(headers, data).readEntity(String.class)).getJSONObject("data");
             ret = object.getString("access_token");
         }catch(Exception ignored){
         }
@@ -80,7 +80,7 @@ public class ApiData {
         JSONObject data=new LoginJsonData().loginUser();
         String ret = "";
         try {
-            JSONObject object = new JSONObject(new APIMethods().post(headers, data, 200, false).readEntity(String.class)).getJSONObject("data");
+            JSONObject object = new JSONObject(new APIMethods().post(headers, data).readEntity(String.class)).getJSONObject("data");
             ret = object.getString("access_token");
         }catch(Exception ignored){
         }
@@ -110,9 +110,8 @@ public class ApiData {
         JSONObject data=new LoginJsonData().loginAdmin();
         String ret = "";
         try {
-            JSONObject object = new JSONObject(new APIMethods().post(headers, data,
-                    200, false).readEntity(String.class)).getJSONObject("data");
-            new JSONObject(new APIMethods().post(headers, data,200, false));
+            JSONObject object = new JSONObject(new APIMethods().post(headers, data).readEntity(String.class)).getJSONObject("data");
+            new JSONObject(new APIMethods().post(headers, data));
             ret = object.getString("access_token");
         }catch(Exception ignored){
         }

@@ -22,10 +22,6 @@ public class RegistrationResponse {
         keyList.add("CashSum");
         keyList.add("CurrencyId");
 
-        keyList.add("field");
-        keyList.add("text");
-        keyList.add("type");
-
         return keyList;
     }
 
