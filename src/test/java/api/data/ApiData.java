@@ -30,8 +30,8 @@ public class ApiData {
 
     public JSONObjectAPI DataHeadersTokenId(String endpoint, String tokenType,Object id) {
         HashMap<String,Object> headersMap = new HashMap<>();
-        headersMap.put("id",id);
         JSONObjectAPI apiHeaders = new ApiData().DataHeaders(endpoint);
+        headersMap.put("id",id);
         headersMap.put("Authorization", new ApiData().settingToken(tokenType));
         apiHeaders.putHeaders(headersMap);
         return apiHeaders;
@@ -49,14 +49,15 @@ public class ApiData {
 
     public String settingToken(String tokenType)
     {
-        if (tokenType == "Admin") {
-            return getValidAdminTokenHeader();
-        } else if (tokenType == "User") {
-           return getValidUserTokenHeader();
-        } else if (tokenType == "Invalid") {
-            return  getInvalidTokenHeader();
-        } else {
-            return getExpiredAdminTokenHeader();
+        switch (tokenType) {
+            case "Admin":
+                return getValidAdminTokenHeader();
+            case "User":
+                return getValidUserTokenHeader();
+            case "Invalid":
+                return getInvalidTokenHeader();
+            default:
+                return getExpiredAdminTokenHeader();
         }
     }
 
@@ -64,10 +65,9 @@ public class ApiData {
     {
         JSONObjectAPI headers=DataHeaders("/accounts/jsonLogin");
         JSONObject data=new LoginJsonData().loginAdmin();
-        HashMap<String, Object> myHeaders = new HashMap<>();
         String ret = "";
         try {
-            JSONObject object = new JSONObject(new APIMethods().post(headers, data).readEntity(String.class)).getJSONObject("data");
+            JSONObject object = new JSONObject(new APIMethods().postNL(headers, data).readEntity(String.class)).getJSONObject("data");
             ret = object.getString("access_token");
         }catch(Exception ignored){
         }
@@ -80,7 +80,7 @@ public class ApiData {
         JSONObject data=new LoginJsonData().loginUser();
         String ret = "";
         try {
-            JSONObject object = new JSONObject(new APIMethods().post(headers, data).readEntity(String.class)).getJSONObject("data");
+            JSONObject object = new JSONObject(new APIMethods().postNL(headers, data).readEntity(String.class)).getJSONObject("data");
             ret = object.getString("access_token");
         }catch(Exception ignored){
         }
@@ -89,7 +89,6 @@ public class ApiData {
 
     public String getInvalidTokenHeader()
     {
-        HashMap<String,Object> myHeaders=new HashMap<>();
         String invalidToken = "";
         FileInputStream fis;
         Properties property = new Properties();
@@ -110,8 +109,8 @@ public class ApiData {
         JSONObject data=new LoginJsonData().loginAdmin();
         String ret = "";
         try {
-            JSONObject object = new JSONObject(new APIMethods().post(headers, data).readEntity(String.class)).getJSONObject("data");
-            new JSONObject(new APIMethods().post(headers, data));
+            JSONObject object = new JSONObject(new APIMethods().postNL(headers, data).readEntity(String.class)).getJSONObject("data");
+            new JSONObject(new APIMethods().postNL(headers, data));
             ret = object.getString("access_token");
         }catch(Exception ignored){
         }
