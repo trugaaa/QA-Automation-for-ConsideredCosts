@@ -16,6 +16,8 @@ import static api.process.APIOperations.*;
 public class APIMethods {
 
     private  String rootURL;
+    private  Boolean needLogs;
+
 
     public APIMethods()
     {   FileInputStream fis;
@@ -24,6 +26,7 @@ public class APIMethods {
             fis = new FileInputStream("src/test/java/api/resources/configAPI.properties");
             property.load(fis);
             rootURL = property.getProperty("ROOT_URL");
+            needLogs = Boolean.parseBoolean(property.getProperty("NEED_LOGS"));
         }
         catch (Exception ex)
         {
@@ -49,44 +52,48 @@ public class APIMethods {
                     .accept(headers.getAccept());
     }
 
-    public Response get(JSONObjectAPI headers,int expectedHttpCode, boolean needLogs)
+    public Response get(JSONObjectAPI headers)
     {
         Response res = getResponse(headers).get();
-            requestLogs(rootURL, headers,null,res,new Throwable()
-                    .getStackTrace()[0]
-                    .getMethodName(),expectedHttpCode,needLogs);
+        res.bufferEntity();
+            if(needLogs) {
+                requestLogs(headers, null, res);
+            }
         return res;
     }
 
-    public Response post(JSONObjectAPI headers, JSONObject body , int expectedHttpCode, boolean needLogs)
+    public Response post(JSONObjectAPI headers, JSONObject body)
     {
 
         Response res = getResponse(headers).post(Entity.json(body.toString()));
-
-            requestLogs(rootURL, headers,body,res,new Throwable()
-                    .getStackTrace()[0]
-                    .getMethodName(),expectedHttpCode,needLogs);
+        res.bufferEntity();
+        if(needLogs) {
+            requestLogs(headers, body, res);
+        }
         return res;
     }
 
-    public Response delete(JSONObjectAPI headers, int expectedHttpCode, boolean needLogs)
+    public Response delete(JSONObjectAPI headers)
     {
             Response response= getResponse(headers)
                     .delete();
-        requestLogs(rootURL,headers,null,response,new Throwable()
-                .getStackTrace()[0]
-                .getMethodName(),expectedHttpCode,needLogs);
+        response.bufferEntity();
+
+        if(needLogs) {
+            requestLogs(headers, null, response);
+        }
         return response;
     }
 
-    public Response put(JSONObjectAPI headers,JSONObject body , int expectedHttpCode, boolean needLogs)
+    public Response put(JSONObjectAPI headers,JSONObject body)
     {
 
         Response res = getResponse(headers).put(Entity.json(body.toString()));
+        res.bufferEntity();
 
-        requestLogs(rootURL, headers,body,res,new Throwable()
-                .getStackTrace()[0]
-                .getMethodName(),expectedHttpCode,needLogs);
+        if(needLogs) {
+            requestLogs(headers, body, res);
+        }
         return res;
     }
 
