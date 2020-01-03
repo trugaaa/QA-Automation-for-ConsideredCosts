@@ -2,19 +2,30 @@ package data;
 
 public class UniversalMethods
 {
-    private String randomString(int length, int minCharLimit, int manCharLimit)
+    void sleepMain(int seconds)
+    {
+        try {
+            Thread.sleep(seconds*1000);
+        }
+        catch (Exception ignored)
+        {
+
+        }
+    }
+
+    private String randomString(int length, int minCharLimit, int maxCharLimit)
     {
         String resultString = "";
         for(int i=0; i<length;i++)
         {
-            resultString+=randomSymbol(97,122);
+            resultString+=randomSymbol(minCharLimit,maxCharLimit);
         }
         return resultString;
     }
 
-    private char randomSymbol(int minCharLimit, int manCharLimit)
+    private char randomSymbol(int minCharLimit, int maxCharLimit)
     {
-        return (char)getRandomIntegerBetweenRange(minCharLimit,manCharLimit);
+        return (char)getRandomIntegerBetweenRange(minCharLimit,maxCharLimit);
     }
 
     public static int getRandomIntegerBetweenRange(int minLimit, int manLimit)

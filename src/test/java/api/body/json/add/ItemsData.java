@@ -17,6 +17,12 @@ public class ItemsData {
         return body;
     }
 
+    public JSONObject blankItems()
+    {
+        JSONObject body = new JSONObject();
+        return body;
+    }
+
     public JSONObject incorrectItemsSQLRequest()
     {
         JSONObject body = new JSONObject();

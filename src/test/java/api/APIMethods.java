@@ -9,7 +9,6 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.*;
 import java.io.FileInputStream;
-import java.util.List;
 import java.util.Properties;
 import static api.process.APIOperations.*;
 
@@ -34,7 +33,7 @@ public class APIMethods {
         }
     }
 
-    public Invocation.Builder getResponse(JSONObjectAPI headers)
+    public Invocation.Builder buildRequest(JSONObjectAPI headers)
     {
         Client client= ClientBuilder.newClient();
         if(headers.has("headers"))
@@ -54,10 +53,10 @@ public class APIMethods {
 
     public Response get(JSONObjectAPI headers)
     {
-        Response res = getResponse(headers).get();
+        Response res = buildRequest(headers).get();
         res.bufferEntity();
             if(needLogs) {
-                requestLogs(headers, null, res);
+                logs(headers, null, res);
             }
         return res;
     }
@@ -65,22 +64,22 @@ public class APIMethods {
     public Response post(JSONObjectAPI headers, JSONObject body)
     {
 
-        Response res = getResponse(headers).post(Entity.json(body.toString()));
+        Response res = buildRequest(headers).post(Entity.json(body.toString()));
         res.bufferEntity();
         if(needLogs) {
-            requestLogs(headers, body, res);
+            logs(headers, body, res);
         }
         return res;
     }
 
     public Response delete(JSONObjectAPI headers)
     {
-            Response response= getResponse(headers)
+            Response response= buildRequest(headers)
                     .delete();
         response.bufferEntity();
 
         if(needLogs) {
-            requestLogs(headers, null, response);
+            logs(headers, null, response);
         }
         return response;
     }
@@ -88,13 +87,27 @@ public class APIMethods {
     public Response put(JSONObjectAPI headers,JSONObject body)
     {
 
-        Response res = getResponse(headers).put(Entity.json(body.toString()));
+        Response res = buildRequest(headers).put(Entity.json(body.toString()));
         res.bufferEntity();
 
         if(needLogs) {
-            requestLogs(headers, body, res);
+            logs(headers, body, res);
         }
         return res;
     }
 
+    public Response postNL(JSONObjectAPI headers, JSONObject body)
+    {
+
+        Response res = buildRequest(headers).post(Entity.json(body.toString()));
+        res.bufferEntity();
+        return res;
+    }
+
+    public Response getNL(JSONObjectAPI headers)
+    {
+        Response res = buildRequest(headers).get();
+        res.bufferEntity();
+        return res;
+    }
 }

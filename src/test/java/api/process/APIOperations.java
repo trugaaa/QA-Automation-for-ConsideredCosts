@@ -3,18 +3,20 @@ package api.process;
         import api.data.JSONObjectAPI;
         import org.json.JSONObject;
 
-        import javax.ws.rs.core.Response;
+        import javax.ws.rs.core.*;
         import java.util.List;
+
 
 public class APIOperations {
 
-    public static void requestLogs(JSONObjectAPI headers, JSONObject body, Response response) {
-            String method = "";
-            String URI = "";
+    public static void logs(JSONObjectAPI headers, JSONObject body, Response response) {
 
             System.out.println("------------------------------------------------------------------------------------------");
-            System.out.println("URI: "+URI);
-            System.out.println("HTTP Method: " + method);
+            System.out.println("Date: "+response.getDate());
+
+            System.out.println("URI: " + createSubString(response.toString()," uri=",", status"));
+            System.out.println("HTTP Method: " + createSubString(response.toString(),"method=",","));
+
             System.out.println("Request headers: "+headers);
             if (body != null) {
                 System.out.println("Request body: " + body.toString());
@@ -32,17 +34,24 @@ public class APIOperations {
 
     public static boolean keyValidation(Response response, List<String> keyList) {
         boolean result = true;
-        String resultsOfCheck = "Response body checking:";
+        StringBuilder resultsOfCheck = new StringBuilder("Response body checking:");
             JSONObject body=new JSONObject(response.readEntity(String.class)).getJSONObject("data");
             for (String key : keyList) {
                 if (!body.has(key)) {
-                   resultsOfCheck+="\n" + key +" is not present in the body";
+                   resultsOfCheck.append("\n").append(key).append(" is not present in the body");
                 result = false;
                 }
             }
-            if(resultsOfCheck!="Response body checking:")
+            if(!resultsOfCheck.toString().equals("Response body checking:"))
                 System.out.println(resultsOfCheck);
 
         return result;
     }
+
+    public static String createSubString(String fullString, String start, String end)
+    {
+       return fullString.substring(fullString.indexOf(start)+start.length(),
+               fullString.indexOf(end));
+    }
+
 }

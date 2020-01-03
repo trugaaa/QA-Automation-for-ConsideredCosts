@@ -2,7 +2,6 @@ package api.data;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import java.util.HashMap;
