@@ -58,6 +58,7 @@
             </configuration>
             </plugin>
 
+            <!-- CI/CD -->
             <plugin>
                 <groupId>io.qameta.allure</groupId>
                 <artifactId>allure-maven</artifactId>
