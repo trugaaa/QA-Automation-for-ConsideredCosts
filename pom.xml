@@ -27,7 +27,10 @@
         <!-- Mobile automation -->
 
         <!-- CI/CD -->
-        <allure-testng.version>2.6.0</allure-testng.version>
+        <allure-maven.version>2.9</allure-maven.version>
+        <allure-reportVersion.version>2.6.0</allure-reportVersion.version>
+        <allure-testng.version>2.13.1</allure-testng.version>
+        <allure.results.directory>target/allure-results</allure.results.directory>
     </properties>
 
     <build>
@@ -52,6 +55,16 @@
                 <suiteXmlFile>src/test/java/api/resources/testNgApi.xml</suiteXmlFile>
             </suiteXmlFiles>
             </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>${allure-maven.version}</version>
+                <configuration>
+                    <reportVersion>${allure-reportVersion.version}</reportVersion>
+                    <reportDirectory>${project.build.directory}/target/allure-results</reportDirectory>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -97,6 +110,21 @@
 
         <!-- Mobile automation -->
 
-</dependencies>
+        <!-- CI/CD -->
+
+            <dependency>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-testng</artifactId>
+                <version>${allure-testng.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.18</version>
+        </dependency>
+
+    </dependencies>
 
 </project>
