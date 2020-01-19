@@ -18,6 +18,7 @@ target/
 *.iml
 *.ipr
 .allure
+.allure-results
 
 ### NetBeans ###
 /nbproject/private/
