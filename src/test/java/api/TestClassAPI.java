@@ -43,14 +43,8 @@ public class TestClassAPI {
         editOutgoeData = new EditOutgoeData();
 
         registrationResponse = new RegistrationResponse();
-    }
 
-    @DELETE
-    @Path("/Test/ClearDb")
-    @Test(groups = "Test")
-    public void deleteDB() {
-        Response res = new APIMethods().delete(apiData.DataHeaders("/Test/ClearDb"));
-        assertEquals(res.getStatus(),200);
+       new APIMethods().delete(apiData.DataHeaders("/Test/ClearDb"));
        new APIMethods().getNL(apiData.DataHeadersToken("/items","User"));
        new APIMethods().getNL(apiData.DataHeaders("/currencies"));
     }
@@ -421,6 +415,14 @@ public class TestClassAPI {
     public void saveItem() {
         Response res = new APIMethods().post(apiData.DataHeadersToken("/items","User"),itemsData.correctItems());
         assertEquals(res.getStatus(),200);
+    }
+
+    @POST
+    @Path("/items")
+    @Test(groups = "Item",priority = 3)
+    public void saveDublicateItem() {
+        Response res = new APIMethods().post(apiData.DataHeadersToken("/items","User"),itemsData.correctItems());
+        assertEquals(res.getStatus(),400);
     }
 
     @POST
