@@ -48,10 +48,6 @@
             <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
-            <systemPropertyVariables>
-                <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
-            </systemPropertyVariables>
-
             <suiteXmlFiles>
                 <suiteXmlFile>src/test/java/api/resources/testNgApi.xml</suiteXmlFile>
             </suiteXmlFiles>
@@ -101,18 +97,6 @@
 
         <!-- Mobile automation -->
 
-        <!-- CI/CD -->
-       <dependency>
-            <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-testng</artifactId>
-            <version>${allure-testng.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-nop</artifactId>
-            <version>1.7.13</version>
-        </dependency>
 </dependencies>
 
 </project>
