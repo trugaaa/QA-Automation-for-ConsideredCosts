@@ -28,6 +28,7 @@
 
         <!-- CI/CD -->
         <allure-testng.version>2.6.0</allure-testng.version>
+        <allure-maven.version>2.9</allure-maven.version>
     </properties>
 
     <build>
@@ -51,9 +52,17 @@
             <suiteXmlFiles>
                 <suiteXmlFile>src/test/java/api/resources/testNgApi.xml</suiteXmlFile>
             </suiteXmlFiles>
+                    <systemPropertyVariables>
+                        <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
+                    </systemPropertyVariables>
             </configuration>
             </plugin>
 
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>${allure-maven.version}</version>
+            </plugin>
         </plugins>
     </build>
 
