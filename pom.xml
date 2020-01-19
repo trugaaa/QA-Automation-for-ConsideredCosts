@@ -7,12 +7,36 @@
 <groupId>com.aqa.consideredcosts</groupId>
 <artifactId>AQAConsideredCosts</artifactId>
 <version>1.0-SNAPSHOT</version>
+    <properties>
+
+        <!-- Maven plugins -->
+        <maven-surefire-plugin.version>2.14.1</maven-surefire-plugin.version>
+        <maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
+
+        <!-- Testing -->
+        <testng.version>7.0.0</testng.version>
+
+        <!-- Web automation -->
+        <selenium-java.version>3.141.59</selenium-java.version>
+
+        <!-- API automation -->
+        <json.version>20190722</json.version>
+        <jersey-client.version>2.29.1</jersey-client.version>
+        <jersey-hk2.version>2.26</jersey-hk2.version>
+
+        <!-- Mobile automation -->
+
+        <!-- CI/CD -->
+        <allure-testng.version>2.6.0</allure-testng.version>
+    </properties>
+
     <build>
+        <!-- Maven plugins -->
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <source>8</source>
                     <target>8</target>
@@ -22,8 +46,8 @@
             <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.14.1</version>
-            <configuration>
+                <version>${maven-surefire-plugin.version}</version>
+                <configuration>
             <suiteXmlFiles>
                 <suiteXmlFile>src/test/java/api/resources/testNgApi.xml</suiteXmlFile>
             </suiteXmlFiles>
@@ -34,39 +58,52 @@
     </build>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-            <version>3.141.59</version>
-        </dependency>
-
+        <!-- Testing -->
         <!-- https://mvnrepository.com/artifact/org.testng/testng -->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>7.0.0</version>
+            <version>${testng.version}</version>
             <scope>test</scope>
         </dependency>
 
+        <!-- Web automation -->
+        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium-java.version}</version>
+        </dependency>
+
+        <!-- API automation -->
         <!-- https://mvnrepository.com/artifact/org.json/json -->
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>20190722</version>
+            <version>${json.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-client -->
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-client</artifactId>
-            <version>2.29.1</version>
+            <version>${jersey-client.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.glassfish.jersey.inject</groupId>
             <artifactId>jersey-hk2</artifactId>
-            <version>2.26</version>
+            <version>${jersey-hk2.version}</version>
+        </dependency>
+
+        <!-- Mobile automation -->
+
+        <!-- CI/CD -->
+       <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-testng</artifactId>
+            <version>${allure-testng.version}</version>
         </dependency>
     </dependencies>
+
 </project>
