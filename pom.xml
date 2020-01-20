@@ -51,7 +51,10 @@
             <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
-            <suiteXmlFiles>
+                    <systemPropertyVariables>
+                    <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
+                    </systemPropertyVariables>
+                    <suiteXmlFiles>
                 <suiteXmlFile>src/test/java/api/resources/testNgApi.xml</suiteXmlFile>
             </suiteXmlFiles>
             </configuration>
@@ -63,7 +66,6 @@
                 <version>${allure-maven.version}</version>
                 <configuration>
                     <reportVersion>${allure-reportVersion.version}</reportVersion>
-                    <reportDirectory>${project.build.directory}/target/allure-results</reportDirectory>
                 </configuration>
             </plugin>
         </plugins>
