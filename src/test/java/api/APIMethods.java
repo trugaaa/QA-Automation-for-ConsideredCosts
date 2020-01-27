@@ -1,6 +1,7 @@
 package api;
 
 import api.data.JSONObjectAPI;
+import io.qameta.allure.Step;
 import org.json.JSONObject;
 
 import javax.ws.rs.client.Client;
@@ -33,6 +34,7 @@ public class APIMethods {
         }
     }
 
+    @Step("Request building")
     public Invocation.Builder buildRequest(JSONObjectAPI headers)
     {
         Client client= ClientBuilder.newClient();
@@ -50,10 +52,10 @@ public class APIMethods {
                     .request(headers.getRequest())
                     .accept(headers.getAccept());
     }
-
+    @Step("HTTP GET")
     public Response get(JSONObjectAPI headers)
     {
-        Response res = buildRequest(headers).get();
+        Response res = getNL(headers);
         res.bufferEntity();
             if(needLogs) {
                 logs(headers, null, res);
@@ -61,17 +63,18 @@ public class APIMethods {
         return res;
     }
 
+    @Step("HTTP POST")
     public Response post(JSONObjectAPI headers, JSONObject body)
     {
 
-        Response res = buildRequest(headers).post(Entity.json(body.toString()));
+        Response res = postNL(headers,body);
         res.bufferEntity();
-        if(needLogs) {
-            logs(headers, body, res);
-        }
+        if(needLogs) {  logs(headers, body, res); }
+
         return res;
     }
 
+    @Step("HTTP DELETE")
     public Response delete(JSONObjectAPI headers)
     {
             Response response= buildRequest(headers)
@@ -84,6 +87,7 @@ public class APIMethods {
         return response;
     }
 
+    @Step("HTTP PUT")
     public Response put(JSONObjectAPI headers,JSONObject body)
     {
 

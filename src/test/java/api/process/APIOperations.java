@@ -1,6 +1,7 @@
 package api.process;
 
         import api.data.JSONObjectAPI;
+        import io.qameta.allure.Step;
         import org.json.JSONObject;
 
         import javax.ws.rs.core.*;
@@ -9,6 +10,7 @@ package api.process;
 
 public class APIOperations {
 
+    @Step("Logging operation")
     public static void logs(JSONObjectAPI headers, JSONObject body, Response response) {
 
             System.out.println("------------------------------------------------------------------------------------------");

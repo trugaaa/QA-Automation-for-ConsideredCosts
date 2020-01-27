@@ -2,6 +2,7 @@ package api.data;
 
 import api.APIMethods;
 import api.body.json.add.LoginJsonData;
+import io.qameta.allure.Step;
 import org.json.JSONObject;
 import javax.ws.rs.core.MediaType;
 
@@ -12,6 +13,7 @@ import java.util.Properties;
 
 public class ApiData {
 
+    @Step("Headers building")
     public JSONObjectAPI DataHeaders(String endpoint) {
         JSONObjectAPI apiHeaders = new JSONObjectAPI();
         apiHeaders.putAccept(MediaType.APPLICATION_JSON);
@@ -60,7 +62,7 @@ public class ApiData {
                 return getExpiredAdminTokenHeader();
         }
     }
-
+    @Step("Admin token getting")
     public String getValidAdminTokenHeader()
     {
         JSONObjectAPI headers=DataHeaders("/accounts/jsonLogin");
@@ -74,6 +76,7 @@ public class ApiData {
         return "Bearer "+ ret;
     }
 
+    @Step("User token getting")
     public String getValidUserTokenHeader()
     {
         JSONObjectAPI headers=DataHeaders("/accounts/jsonLogin");
@@ -87,6 +90,8 @@ public class ApiData {
         return "Bearer "+ ret;
     }
 
+
+    @Step("Invalid token getting")
     public String getInvalidTokenHeader()
     {
         String invalidToken = "";
@@ -103,6 +108,9 @@ public class ApiData {
         }
         return invalidToken;
     }
+
+
+    @Step("Expired token getting")
     public String getExpiredAdminTokenHeader()
     {
         JSONObjectAPI headers=DataHeaders("/accounts/jsonLogin");
