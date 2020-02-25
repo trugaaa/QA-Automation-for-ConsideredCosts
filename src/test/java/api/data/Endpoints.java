@@ -7,8 +7,8 @@ public class Endpoints
 
     //Prod
     public String accounts = "/accounts";
-    public String login = "/login";
-    public String registration = "/registration";
+    public String login = "/accounts/login";
+    public String registration = "/accounts/registration";
     public String currencies = "/currencies";
     public String incomes = "/incomes";
     public String outgoes = "/outgoes";
