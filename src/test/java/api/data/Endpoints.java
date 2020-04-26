@@ -10,9 +10,10 @@ public class Endpoints
     public String login = "/accounts/login";
     public String registration = "/accounts/registration";
     public String currencies = "/currencies";
-    public String incomes = "/incomes";
-    public String outgoes = "/outgoes";
+    public String incomes = "/transactions";
+    public String outgoes = "/transactions";
     public String items = "/items";
     public String points = "/points";
+    public String family = "/family";
 
 }

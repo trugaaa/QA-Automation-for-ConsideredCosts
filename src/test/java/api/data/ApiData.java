@@ -12,7 +12,7 @@ import java.util.Properties;
 
 
 public class ApiData {
-
+    Endpoints endpoints = new Endpoints();
     @Step("Headers building")
     public JSONObjectAPI DataHeaders(String endpoint) {
         JSONObjectAPI apiHeaders = new JSONObjectAPI();
@@ -65,7 +65,7 @@ public class ApiData {
     @Step("Admin token getting")
     public String getValidAdminTokenHeader()
     {
-        JSONObjectAPI headers=DataHeaders("/accounts/jsonLogin");
+        JSONObjectAPI headers=DataHeaders(endpoints.login);
         JSONObject data=new LoginJsonData().loginAdmin();
         String ret = "";
         try {
@@ -79,11 +79,11 @@ public class ApiData {
     @Step("User token getting")
     public String getValidUserTokenHeader()
     {
-        JSONObjectAPI headers=DataHeaders("/accounts/jsonLogin");
+        JSONObjectAPI headers=DataHeaders(endpoints.login);
         JSONObject data=new LoginJsonData().loginUser();
         String ret = "";
         try {
-            JSONObject object = new JSONObject(new APIMethods().postNL(headers, data).readEntity(String.class)).getJSONObject("data");
+            JSONObject object = new JSONObject(new APIMethods().post(headers, data).readEntity(String.class)).getJSONObject("data");
             ret = object.getString("access_token");
         }catch(Exception ignored){
         }
@@ -113,7 +113,7 @@ public class ApiData {
     @Step("Expired token getting")
     public String getExpiredAdminTokenHeader()
     {
-        JSONObjectAPI headers=DataHeaders("/accounts/jsonLogin");
+        JSONObjectAPI headers=DataHeaders(endpoints.login);
         JSONObject data=new LoginJsonData().loginAdmin();
         String ret = "";
         try {

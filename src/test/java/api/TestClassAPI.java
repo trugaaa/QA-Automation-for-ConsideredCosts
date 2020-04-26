@@ -123,7 +123,7 @@ public class TestClassAPI {
 
     @Test(groups = "Account",priority = 3)
     public void gettingCurrenciesList() {
-        Response res = new APIMethods().get(apiData.DataHeaders(endpoints.accounts));
+        Response res = new APIMethods().get(apiData.DataHeaders(endpoints.currencies));
         assertEquals(res.getStatus(),200);
     }
 
@@ -239,38 +239,38 @@ public class TestClassAPI {
     }
 
     @Test(groups = "Outgoes",priority = 3)
-    public void savingOutgoeWithInvalidToken() {
+    public void savingOutgoWithInvalidToken() {
         Response res = new APIMethods().post(apiData.DataHeadersToken(endpoints.outgoes,"Invalid"),
                 outgoeData.correctOutgoe());
         assertEquals(res.getStatus(),401);
     }
 
     @Test(groups = "Outgoes",priority = 6)
-    public void deletingOutgoe() {
+    public void deletingOutgo() {
         Response res = new APIMethods().delete(apiData.DataHeadersTokenId(endpoints.outgoes,"User",1));
         assertEquals(res.getStatus(),200);
     }
 
     @Test(groups = "Outgoes",priority = 6)
-    public void deletingOutgoeWithNoId() {
+    public void deletingOutgoWithNoId() {
         Response res = new APIMethods().delete(apiData.DataHeadersToken(endpoints.outgoes,"Admin"));
         assertEquals(res.getStatus(),400);
     }
 
     @Test(groups = "Outgoes",priority = 6)
-    public void deletingOutgoeWithInExistentId() {
+    public void deletingOutgoWithInExistentId() {
         Response res = new APIMethods().delete(apiData.DataHeadersTokenId(endpoints.outgoes,"Admin",3213123));
         assertEquals(res.getStatus(),404);
     }
 
     @Test(groups = "Outgoes",priority = 6)
-    public void deletingOutgoeWithInvalidToken() {
+    public void deletingOutgoWithInvalidToken() {
         Response res = new APIMethods().delete(apiData.DataHeadersTokenId(endpoints.outgoes,"Invalid",3));
         assertEquals(res.getStatus(),401);
     }
 
     @Test(groups = "Outgoes",priority = 4)
-    public void editOutgoe() {
+    public void editOutgo() {
         Response res = new APIMethods().put(apiData.DataHeadersToken(endpoints.outgoes,"User"),
                 editOutgoeData.correctOutgoe());
         assertEquals(res.getStatus(),200);
@@ -304,7 +304,7 @@ public class TestClassAPI {
     }
 
     @Test(groups = "Outgoes",priority = 5)
-    public void getOutgoeByIdUser() {
+    public void getOutgoByIdUser() {
         Response res = new APIMethods().get(apiData.DataHeadersTokenId(endpoints.outgoes,"User",1));
         assertEquals(res.getStatus(),200);
     }
