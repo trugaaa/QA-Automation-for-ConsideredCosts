@@ -20,7 +20,7 @@
         <selenium-java.version>3.141.59</selenium-java.version>
 
         <!-- API automation -->
-        <json.version>20190722</json.version>
+        <json.version>20230227</json.version>
         <jersey-client.version>2.29.1</jersey-client.version>
         <jersey-hk2.version>2.26</jersey-hk2.version>
 
